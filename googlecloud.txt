@@ -1,0 +1,22 @@
+Best use of Google Cloud
+by Google Cloud
+
+The Challenge
+Use Google Cloud for your hackathon project. Take advantage of state-of-the-art machine learning tools, scalable infrastructure, a variety of serverless technologies, and easy-to-use devops tooling so that you can focus on your project challenge.There are often more than one way to solve a problem. Take your time and consider carefully“what is the problem you are solving” , “who will the solution be helping”. Once you have narrowed down answers to those questions, it’s easier to start selecting which technologies would be best for you.
+
+Insight
+Share the differentiating insight that inspired this challenge.
+
+Resources
+We will be providing Google Cloud projects & accounts with complementary credits for your teams to use during the event. Local Google engineers from the Helsinki office will be onsite in Junction to answer your questions and help you to get started with your cloud projects.
+
+Company Info
+
+Google Cloud
+Google Cloud is a global leader in cloud computing, AI infrastructure, and data-driven innovation, powering organizations from startups to the world’s largest enterprises. The company focuses on enabling builders to deploy scalable architectures, leverage state-of-the-art AI models, and accelerate digital transformation securely. With deep resources—including advanced GPU/TPU infrastructure, industry-grade datasets, and world-class developer tooling—Google Cloud supports teams aiming to push the boundaries of applied AI. At Junction, Google Cloud participates to foster real experimentation on its platform and to identify next-generation solutions that can scale globally.
+
+Website: https://cloud.google.com/
+
+Prizes
+Winners
+Google Swag
