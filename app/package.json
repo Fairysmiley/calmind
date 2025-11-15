@@ -1,0 +1,19 @@
+{
+  "name": "calmmind-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "simulate": "tsx src/simulate.ts",
+    "chatbot": "tsx src/chatbotDemo.ts"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.13",
+    "tsx": "^4.15.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.1",
+    "typescript": "^5.4.5"
+  }
+}
+
