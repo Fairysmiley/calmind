@@ -39,6 +39,9 @@ export default function App() {
   const [index, setIndex] = useState(wellbeingDays.length - 1);
   const [toast, setToast] = useState<string | null>(null);
   const [previousVisited, setPreviousVisited] = useState(false);
+  const [shieldActive, setShieldActive] = useState(false);
+  const [shieldActions, setShieldActions] = useState<string[]>([]);
+  const [voiceTranscript, setVoiceTranscript] = useState<string | null>(null);
   const [cloudStatus, setCloudStatus] = useState<CloudTuningResponse | null>(null);
   const [cloudLoading, setCloudLoading] = useState(false);
 
@@ -66,6 +69,20 @@ export default function App() {
       .then((data) => setCloudStatus(data))
       .finally(() => setCloudLoading(false));
   }, [index]);
+
+  useEffect(() => {
+    if (insight.score >= 0.9) {
+      setShieldActive(true);
+      setShieldActions([
+        "Auto-dim screen + blue light filter",
+        "Enable Do Not Disturb",
+        "Switch to grayscale wallpaper"
+      ]);
+    } else {
+      setShieldActive(false);
+      setShieldActions([]);
+    }
+  }, [insight]);
 
   const goPrevious = () =>
     setIndex((prev) => {
@@ -101,6 +118,26 @@ export default function App() {
     setTimeout(() => setToast(null), 4000);
   };
 
+  const handleVoiceCommand = (command: VoiceCommand, insight: RiskInsight) => {
+    setVoiceTranscript(command);
+    if (command === "status") {
+      setToast(
+        shieldActive
+          ? "Voice reply: Shield active, screen dimmed + DND running."
+          : "Voice reply: Shield on standby, risk below threshold."
+      );
+    } else if (command === "explain") {
+      setToast(
+        `Voice reply: Top drivers are ${insight.drivers
+          .slice(0, 2)
+          .join(" & ")}.`
+      );
+    } else {
+      setToast("Voice reply: I’ll silence nudges for 20 minutes.");
+    }
+    setTimeout(() => setToast(null), 4000);
+  };
+
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar style="light" />
@@ -113,7 +150,13 @@ export default function App() {
         <DriverList insight={insight} />
         <NotificationCard insight={insight} onDecision={handleDecision} />
         <AutomationCard insight={insight} />
+        <MigraineShieldCard active={shieldActive} actions={shieldActions} />
+        <VoiceCommandPanel
+          onCommand={(type) => handleVoiceCommand(type, insight)}
+          transcript={voiceTranscript}
+        />
         <CloudTuningCard status={cloudStatus} loading={cloudLoading} />
+        <ExplainabilityTimeline insights={weeklySummary.insights.slice(-3)} />
         <WeeklyRecapCard summary={weeklySummary} />
         {toast && <Text style={styles.toast}>{toast}</Text>}
         <View style={styles.navRow}>
@@ -265,6 +308,88 @@ const AutomationCard = ({ insight }: { insight: RiskInsight }) => (
   </View>
 );
 
+const MigraineShieldCard = ({
+  active,
+  actions
+}: {
+  active: boolean;
+  actions: string[];
+}) => (
+  <View style={[styles.card, active && styles.shieldCard]}>
+    <Text style={styles.cardTitle}>
+      Migraine Shield {active ? "ACTIVE" : "standby"}
+    </Text>
+    {active ? (
+      <>
+        <Text style={styles.cardBody}>
+          Risk spiked above 0.9. CalmMind is running your pre-approved shield.
+        </Text>
+        {actions.map((action) => (
+          <Text key={action} style={styles.listItem}>
+            • {action}
+          </Text>
+        ))}
+      </>
+    ) : (
+      <Text style={styles.cardBody}>
+        Shield auto-arms when high confidence risk is detected.
+      </Text>
+    )}
+  </View>
+);
+
+type VoiceCommand = "status" | "explain" | "silence";
+
+const VoiceCommandPanel = ({
+  onCommand,
+  transcript
+}: {
+  onCommand: (command: VoiceCommand) => void;
+  transcript: string | null;
+}) => (
+  <View style={styles.card}>
+    <Text style={styles.cardTitle}>Hands-free commands</Text>
+    <Text style={styles.cardBody}>
+      Say “Hey CalmMind …” then try one of these:
+    </Text>
+    <View style={styles.voiceRow}>
+      <Pressable
+        style={[styles.cta, styles.voiceButton]}
+        onPress={() => onCommand("status")}
+      >
+        <Text style={styles.ctaLabel}>“status”</Text>
+      </Pressable>
+      <Pressable
+        style={[styles.cta, styles.voiceButton]}
+        onPress={() => onCommand("explain")}
+      >
+        <Text style={styles.ctaLabel}>“explain”</Text>
+      </Pressable>
+      <Pressable
+        style={[styles.cta, styles.voiceButton]}
+        onPress={() => onCommand("silence")}
+      >
+        <Text style={styles.ctaLabel}>“silence”</Text>
+      </Pressable>
+    </View>
+    {transcript && <Text style={styles.helper}>Heard: {transcript}</Text>}
+  </View>
+);
+
+const ExplainabilityTimeline = ({ insights }: { insights: RiskInsight[] }) => (
+  <View style={styles.card}>
+    <Text style={styles.cardTitle}>Explainability timeline</Text>
+    {insights.map((item) => (
+      <View key={item.date} style={styles.timelineRow}>
+        <Text style={styles.timelineDate}>{item.date}</Text>
+        <Text style={styles.timelineCopy}>
+          Drivers: {item.drivers.slice(0, 2).join(", ")} → {item.recommendation}
+        </Text>
+      </View>
+    ))}
+  </View>
+);
+
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
@@ -368,6 +493,10 @@ const styles = StyleSheet.create({
     color: "#8a8fb6",
     fontSize: 12
   },
+  shieldCard: {
+    borderColor: "#86ffdd",
+    borderWidth: 1
+  },
   recapRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -386,6 +515,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 12,
     marginTop: 4
+  },
+  voiceRow: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 12
+  },
+  voiceButton: {
+    flex: 1,
+    backgroundColor: "#292d45"
+  },
+  timelineRow: {
+    marginTop: 8
+  },
+  timelineDate: {
+    color: "#8a8fb6",
+    fontSize: 12,
+    marginBottom: 2
+  },
+  timelineCopy: {
+    color: "#d3d6f7",
+    fontSize: 14
   }
 });
 
