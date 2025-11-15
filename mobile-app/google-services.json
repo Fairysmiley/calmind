@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "350207692962",
+    "project_id": "calmind-37f9a",
+    "storage_bucket": "calmind-37f9a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350207692962:android:f019c1785937473d9887fb",
+        "android_client_info": {
+          "package_name": "com.charles.calmind"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZNu8nwrr6QKCSzKiSxRkRqmElAhbkEnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

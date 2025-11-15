@@ -1,0 +1,16 @@
+{
+  "weights": {
+    "screenMinutes": 0.3,
+    "longestSessionMinutes": 0.2,
+    "pickups": 0.15,
+    "notifications": 0.1,
+    "bedtimeModeUsed": -0.15,
+    "dndMinutes": -0.05,
+    "stressMeetings": 0.1,
+    "pressureDrop": 0.15,
+    "stormAlert": 0.05
+  },
+  "bias": -0.9,
+  "riskThreshold": 0.75
+}
+
