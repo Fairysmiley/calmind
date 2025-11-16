@@ -1,0 +1,35 @@
+{
+  "days": [
+    {
+      "date": "2025-11-10",
+      "screenMinutes": 210,
+      "longestSessionMinutes": 45,
+      "pickups": 48,
+      "notifications": 120,
+      "bedtimeModeUsed": true,
+      "dndMinutes": 60,
+      "stressMeetings": 2
+    },
+    {
+      "date": "2025-11-11",
+      "screenMinutes": 360,
+      "longestSessionMinutes": 120,
+      "pickups": 95,
+      "notifications": 240,
+      "bedtimeModeUsed": false,
+      "dndMinutes": 15,
+      "stressMeetings": 5
+    },
+    {
+      "date": "2025-11-12",
+      "screenMinutes": 420,
+      "longestSessionMinutes": 150,
+      "pickups": 130,
+      "notifications": 310,
+      "bedtimeModeUsed": false,
+      "dndMinutes": 5,
+      "stressMeetings": 6
+    }
+  ]
+}
+

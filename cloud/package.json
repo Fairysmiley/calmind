@@ -1,0 +1,11 @@
+{
+  "name": "calmmind-cloud",
+  "version": "0.1.0",
+  "type": "commonjs",
+  "main": "index.js",
+  "dependencies": {
+    "@google-cloud/firestore": "^7.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

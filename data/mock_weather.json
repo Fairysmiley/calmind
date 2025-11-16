@@ -1,0 +1,23 @@
+{
+  "days": [
+    {
+      "date": "2025-11-10",
+      "pressureHpa": 1015,
+      "humidity": 55,
+      "stormAlert": false
+    },
+    {
+      "date": "2025-11-11",
+      "pressureHpa": 1002,
+      "humidity": 70,
+      "stormAlert": true
+    },
+    {
+      "date": "2025-11-12",
+      "pressureHpa": 995,
+      "humidity": 78,
+      "stormAlert": true
+    }
+  ]
+}
+
